@@ -18,6 +18,8 @@ backend/.env
 dist/
 build/
 .next/
+frontend/dist/
+backend/public/
 
 # Logs
 *.log

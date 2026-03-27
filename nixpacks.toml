@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm-9_x"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = [
+  "cd frontend && npm install && npm run build",
+  "node -e \"const fs=require('fs'); fs.mkdirSync('backend/public',{recursive:true}); fs.cpSync('frontend/dist','backend/public',{recursive:true}); console.log('✅ Frontend built and copied');\"",
+  "cd backend && npm install"
+]
+
+[start]
+cmd = "node backend/server.js"
