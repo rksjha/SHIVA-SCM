@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: shiva_scm_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: shiva_scm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: shivascm2025
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shiva_scm_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      JWT_SECRET: change_this_to_a_strong_secret_key_in_production
+      JWT_EXPIRES_IN: 7d
+      DB_DIALECT: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: shiva_scm
+      DB_USER: postgres
+      DB_PASSWORD: shivascm2025
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  # Frontend (Nginx serving React build)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shiva_scm_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

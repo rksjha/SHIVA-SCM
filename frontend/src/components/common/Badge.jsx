@@ -1,0 +1,52 @@
+const statusColors = {
+  active: 'success',
+  inactive: 'secondary',
+  suspended: 'danger',
+  pending: 'warning',
+  confirmed: 'info',
+  processing: 'primary',
+  dispatched: 'primary',
+  in_transit: 'info',
+  delivered: 'success',
+  cancelled: 'danger',
+  returned: 'warning',
+  draft: 'secondary',
+  paid: 'success',
+  partial: 'warning',
+  overdue: 'danger',
+  bronze: 'warning',
+  silver: 'secondary',
+  gold: 'warning',
+  platinum: 'primary',
+  verified: 'success',
+  unverified: 'secondary',
+  out_for_delivery: 'info',
+  lost: 'danger',
+  admin: 'danger',
+  manager: 'primary',
+  viewer: 'secondary',
+  A: 'success',
+  B: 'info',
+  C: 'warning',
+  Premium: 'primary',
+  primary: 'primary',
+  secondary: 'secondary',
+  spot: 'warning',
+  physical: 'info',
+  online: 'primary',
+  both: 'success',
+  individual: 'secondary',
+  company: 'primary',
+  government: 'success',
+  institution: 'info',
+  purchase: 'primary',
+  sales: 'success',
+  transfer: 'info',
+};
+
+const Badge = ({ label, status, variant }) => {
+  const cls = variant || statusColors[status] || statusColors[label?.toLowerCase()] || 'secondary';
+  return <span className={`badge badge-${cls}`}>{label || status}</span>;
+};
+
+export default Badge;
