@@ -1,7 +1,7 @@
 {
   "name": "shiva-scm",
   "version": "1.0.0",
-  "description": "SHIVA SCM — Enterprise Supply Chain Management Platform by Shiva Consultancy Group",
+  "description": "SHIVA SCM — Enterprise Supply Chain Management Platform",
   "private": true,
   "engines": {
     "node": ">=18.0.0"
@@ -9,11 +9,11 @@
   "scripts": {
     "build": "npm run build:frontend && npm run copy:frontend && npm run install:backend",
     "build:frontend": "cd frontend && npm install && npm run build",
-    "copy:frontend": "node -e \"const fs=require('fs'); const path=require('path'); const src='frontend/dist'; const dest='backend/public'; if(fs.existsSync(dest)) fs.rmSync(dest,{recursive:true}); fs.mkdirSync(dest,{recursive:true}); fs.cpSync(src,dest,{recursive:true}); console.log('Frontend copied to backend/public');\"",
+    "copy:frontend": "node -e \"const fs=require('fs');const src='frontend/dist';const dest='backend/public';if(fs.existsSync(dest))fs.rmSync(dest,{recursive:true});fs.cpSync(src,dest,{recursive:true});console.log('✅ Frontend copied to backend/public');\"",
     "install:backend": "cd backend && npm install",
-    "start": "node backend/server.js",
-    "seed": "node backend/src/seeders/seed.js",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev"
-  }
+    "start": "node backend/src/seeders/seed.js; node backend/server.js",
+    "seed": "node backend/src/seeders/seed.js"
+  },
+  "author": "Shiva Consultancy Group",
+  "license": "PROPRIETARY"
 }
